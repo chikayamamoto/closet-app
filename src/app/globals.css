@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-primary: #F7C2AB;
+  /* メインのピンク */
+  --color-secondary: #FEE3D7;
+  /* 淡いピンク */
+  --color-base: #FFF1DF;
+  /* 全体背景のクリーム */
+  --text-main: #68483f;
+  --hover-light: #FFE0D2;
 }
 
 @theme inline {

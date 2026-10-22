@@ -4,7 +4,7 @@ import { verifyToken } from '@/lib/jwt';
 import { AUTH_TOKEN } from '@/lib/auth';
 
 // リクエスト受信時に実行されるミドルウェア
-export async function middleware(request: NextRequest) {
+export default async function  proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // ログインページは認証チェックをしない
