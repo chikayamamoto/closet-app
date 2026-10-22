@@ -7,13 +7,13 @@ import { ClothesButton } from '@/components/ClothesButton';
 import type { ClothingItem } from '@/types/clothes';
 
 const categories = [
-  { label: 'すべて', value: 'all', href: '/clothes' },
-  { label: 'トップス', value: 'tops', href: '/clothes/tops' },
-  { label: 'ボトムス', value: 'bottoms', href: '/clothes/bottoms' },
-  { label: 'シューズ', value: 'shoes', href: '/clothes/shoes' },
-  { label: 'ワンピース', value: 'onepiece', href: '/clothes/onepiece' },
-  { label: 'アウター', value: 'outwear', href: '/clothes/outwear' },
-  { label: '小物', value: 'inner', href: '/clothes/inner' },
+  { label: 'すべて', value: 'all' },
+  { label: 'トップス', value: 'tops' },
+  { label: 'ボトムス', value: 'bottoms' },
+  { label: 'シューズ', value: 'shoes' },
+  { label: 'ワンピース', value: 'onepiece' },
+  { label: 'アウター', value: 'outwear' },
+  { label: '小物', value: 'inner' },
 ];
 
 export default function Home() {
@@ -40,26 +40,26 @@ export default function Home() {
   }, []);
 
   // 選択したカテゴリの洋服だけを表示
+  const selectedCategoryLabel = categories.find(
+    (category) =>
+      category.value === selectedCategory
+  )?.label;
+
   const filteredClothes =
     selectedCategory === 'all'
       ? clothes
       : clothes.filter(
-        (clothing) => clothing.category ===
-          categories.find(
-            (category) => category.value === selectedCategory
-          )?.label
+        (clothing) =>
+          clothing.category === selectedCategoryLabel
       );
-
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <div className="flex min-h-screen">
       <Sidebar />
 
       <main className="flex-1 p-8">
         <h1 className="mb-6 text-2xl font-bold">
           クローゼット
         </h1>
-        {/* カテゴリーボタン */}
-
         {/* カテゴリーボタン */}
         <div className="mb-8 flex flex-wrap gap-3">
           {categories.map((category) => (
