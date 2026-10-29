@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-
 export default function LoginPage() {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState('');
 
+  // ログイン処理
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage('');
@@ -17,6 +17,7 @@ export default function LoginPage() {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
+    // 入力チェック
     if (!email?.trim() || !password?.trim()) {
       setErrorMessage('メールアドレスとパスワードを入力してください。');
       return;
@@ -26,7 +27,9 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
       if (res.ok) {
@@ -43,64 +46,94 @@ export default function LoginPage() {
   };
 
   return (
-<main className="min-h-screen flex items-center justify-center bg-[#FFF1DF]">
-  <div className="w-full max-w-md bg-white shadow-md rounded-2xl p-8 border border-[#FEE3D7]">
-    <h1 className="text-center text-2xl font-semibold text-[#8B5E3C] mb-6">
-      ログイン
-    </h1>
+    <main className="flex min-h-screen items-center justify-center bg-(--color-base) px-4 py-10">
+      <div className="w-full max-w-md rounded-2xl border border-(--color-secondary) bg-white p-8 shadow-sm sm:p-10">
+        {/* タイトル */}
+        <h1 className="mb-2 text-center text-2xl font-semibold text-(--text-main)">
+          ログイン
+        </h1>
 
-    {errorMessage && (
-      <p className="text-red-500 text-center mb-4">{errorMessage}</p>
-    )}
+        {/* エラーメッセージ */}
+        {errorMessage && (
+          <p
+            role="alert"
+            className="mb-6 rounded-lg bg-red-50 px-4 py-3 text-center text-sm text-red-600"
+          >
+            {errorMessage}
+          </p>
+        )}
 
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <label htmlFor="email" className="block font-medium text-[#8B5E3C] mb-1">
-          メールアドレス
-          <span className="ml-2 px-2 py-0.5 bg-[#FEE3D7] text-[#8B5E3C] text-xs rounded-md">
-            必須
-          </span>
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          className="w-full border border-[#F7C2AB] px-3 py-2 rounded-md bg-[#FFF1DF] focus:ring-2 focus:ring-[#F7C2AB]"
-        />
+        {/* ログインフォーム */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* メールアドレス */}
+          <div>
+            <label
+              htmlFor="email"
+              className="mb-2 block text-sm font-medium text-(--text-main)"
+            >
+              メールアドレス
+              <span className="ml-2 rounded-md bg-(--color-secondary) px-2 py-1 text-xs font-normal text-(--text-main)">
+                必須
+              </span>
+            </label>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              autoComplete="email"
+              required
+              className="w-full rounded-lg border border-[#E8D5C8] bg-white px-4 py-3 text-(--text-main) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-secondary)"
+              placeholder="メールアドレスを入力"
+            />
+          </div>
+
+          {/* パスワード */}
+          <div>
+            <label
+              htmlFor="password"
+              className="mb-2 block text-sm font-medium text-(--text-main)"
+            >
+              パスワード
+              <span className="ml-2 rounded-md bg-(--color-secondary) px-2 py-1 text-xs font-normal text-(--text-main)">
+                必須
+              </span>
+            </label>
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autoComplete="current-password"
+              required
+              className="w-full rounded-lg border border-[#E8D5C8] bg-white px-4 py-3 text-(--text-main) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-secondary)"
+              placeholder="パスワードを入力"
+            />
+          </div>
+
+          {/* ログインボタン */}
+          <button
+            type="submit"
+            className="w-full rounded-xl bg-(--color-primary) px-4 py-3 font-semibold text-(--text-main) transition-colors hover:bg-(--hover-light)"
+          >
+            ログイン
+          </button>
+
+          {/* 会員登録へのリンク */}
+          <div className="border-t border-(--color-secondary) pt-5 text-center">
+            <p className="mb-2 text-sm text-(--text-main)/70">
+              まだアカウントをお持ちでない方
+            </p>
+
+            <Link
+              href="/register"
+              className="text-sm font-semibold text-(--text-main) underline decoration-(--color-primary) underline-offset-4 transition-colors hover:text-(--color-primary)"
+            >
+              会員登録はこちら
+            </Link>
+          </div>
+        </form>
       </div>
-
-      <div>
-        <label htmlFor="password" className="block font-medium text-[#8B5E3C] mb-1">
-          パスワード
-          <span className="ml-2 px-2 py-0.5 bg-[#FEE3D7] text-[#8B5E3C] text-xs rounded-md">
-            必須
-          </span>
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          required
-          className="w-full border border-[#F7C2AB] px-3 py-2 rounded-md bg-[#FFF1DF] focus:ring-2 focus:ring-[#F7C2AB]"
-        />
-      </div>
-
-      <button
-        type="submit"
-        className="w-full bg-[#F7C2AB] hover:bg-[#F4B8A0] text-white py-2 rounded-md font-semibold transition-colors"
-      >
-        ログイン
-      </button>
-
-      <div className="text-center mt-4">
-        <Link href="/register" className="text-[#8B5E3C] hover:underline">
-          会員登録はこちら
-        </Link>
-      </div>
-    </form>
-  </div>
-</main>
-
+    </main>
   );
 }

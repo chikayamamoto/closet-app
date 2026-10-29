@@ -50,7 +50,7 @@ export default function Sidebar() {
       <nav className="mt-6 flex grow flex-col">
         <ul>
           <SidebarItem
-            href="/closet"
+            href="/"
             icon={HomeIcon}
             label="クローゼット"
           />

@@ -38,8 +38,8 @@ export async function POST(request: NextRequest) {
 
     // ユーザー情報をusersテーブルに追加（一般ユーザーとして登録）
     await executeQuery(`
-      INSERT INTO users (name, email, password, is_admin, enabled)
-      VALUES (?, ?, ?, false, true);
+      INSERT INTO users (name, email, password, enabled)
+      VALUES (?, ?, ?, true);
       `, [name, email, hashed]
     );
 

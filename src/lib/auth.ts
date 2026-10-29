@@ -5,9 +5,7 @@ import { verifyToken } from '@/lib/jwt';
 export type AuthUser = {
   userId: number;
   name: string;
-  email: string;
-  isAdmin: boolean;
-};
+  email: string;};
 
 // JWTの認証に用いるトークン名
 export const AUTH_TOKEN = 'authToken';
@@ -31,8 +29,3 @@ export async function isLoggedIn(): Promise<boolean> {
   return user !== null;
 }
 
-// ユーザーが管理者かどうかをチェック
-export async function isAdmin(): Promise<boolean> {
-  const user = await getAuthUser();
-  return user?.isAdmin ?? false;
-}

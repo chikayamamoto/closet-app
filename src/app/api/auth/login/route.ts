@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 入力されたメールアドレスに一致するユーザーを検索
-    const users = await executeQuery<{ id: number; name: string; email: string; password: string; is_admin: boolean }>(
+    const users = await executeQuery<{ id: number; name: string; email: string; password: string; }>(
       'SELECT * FROM users WHERE email = ? AND enabled = TRUE',
       [email]
     );
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       userId: user.id,
       name: user.name,
       email: user.email,
-      isAdmin: user.is_admin
+    
     });
 
     const response = NextResponse.json({ message: 'ログイン成功' });

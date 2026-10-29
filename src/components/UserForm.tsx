@@ -1,69 +1,122 @@
-'use client'; // クライアント（ブラウザ）側で動作
+'use client';
 
 import React from 'react';
 
-// ユーザーフォームコンポーネントに渡すデータ（props）の型定義
+// ユーザーフォームのプロパティ 
 interface UserFormProps {
-  // フォーム送信時に実行されるイベントハンドラ
   onSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
-  // 入力項目に設定する初期値
   initialValues?: {
     name: string;
     email: string;
   };
-  submitLabel: string; // フォーム送信ボタンの表示名
-  withPassword?: boolean; // パスワード入力欄を含めるかどうか
+  submitLabel: string;
+  withPassword?: boolean;
 }
 
 // 入力欄の共通スタイル
-const inputStyle = 'w-full border border-gray-300 px-3 py-2 rounded-sm focus:ring-2 focus:ring-indigo-500';
-// ラベルの共通スタイル
-const labelStyle = "block font-bold mb-1";
-// バッジの共通スタイル
-const badgeStyle = "ml-2 px-2 py-0.5 bg-red-500 text-white text-xs font-semibold rounded-md";
+const inputStyle =
+  'w-full rounded-lg border border-[#E8D5C8] bg-white px-4 py-3 text-(--text-main) outline-none transition focus:border-(--color-primary) focus:ring-2 focus:ring-(--color-secondary)';
 
-// ユーザーフォームの共通コンポーネント
-export default function UserForm({
+// ラベルの共通スタイル
+const labelStyle =
+  'mb-2 block text-sm font-medium text-(--text-main)';
+
+// 必須バッジの共通スタイル
+const badgeStyle =
+  'ml-2 rounded-md bg-(--color-secondary) px-2 py-1 text-xs font-normal text-(--text-main)';
+
+  // ユーザーフォーム
+  export default function UserForm({
   onSubmit,
   initialValues = { name: '', email: '' },
   submitLabel,
   withPassword = false,
 }: UserFormProps) {
   return (
-    <form onSubmit={onSubmit} className="w-full space-y-6 p-8 bg-white shadow-lg rounded-xl">
-      <label className={labelStyle} htmlFor="name">
-        氏名<span className={badgeStyle}>必須</span>
-      </label>
-      <input type="text" id="name" name="name" required
-        defaultValue={initialValues.name} className={inputStyle}
-      />
+    <form onSubmit={onSubmit} className="w-full space-y-6">
+      {/* 氏名 */}
+      <div>
+        <label className={labelStyle} htmlFor="name">
+          氏名
+          <span className={badgeStyle}>必須</span>
+        </label>
 
-      <label className={labelStyle} htmlFor="email">
-        メールアドレス<span className={badgeStyle}>必須</span>
-      </label>
-      <input type="email" id="email" name="email" required
-        defaultValue={initialValues.email} className={inputStyle}
-      />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          autoComplete="name"
+          required
+          defaultValue={initialValues.name}
+          className={inputStyle}
+          placeholder="氏名を入力"
+        />
+      </div>
 
+      {/* メールアドレス */}
+      <div>
+        <label className={labelStyle} htmlFor="email">
+          メールアドレス
+          <span className={badgeStyle}>必須</span>
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          autoComplete="email"
+          required
+          defaultValue={initialValues.email}
+          className={inputStyle}
+          placeholder="メールアドレスを入力"
+        />
+      </div>
+
+      {/* パスワード */}
       {withPassword && (
         <>
-          <label className={labelStyle} htmlFor="password">
-            パスワード<span className={badgeStyle}>必須</span>
-          </label>
-          <input type="password" id="password" name="password" required
-            className={inputStyle}
-          />
+          <div>
+            <label className={labelStyle} htmlFor="password">
+              パスワード
+              <span className={badgeStyle}>必須</span>
+            </label>
 
-          <label className={labelStyle} htmlFor="confirmPassword">
-            パスワード（確認用）<span className={badgeStyle}>必須</span>
-          </label>
-          <input type="password" id="confirmPassword" name="confirmPassword" required
-            className={inputStyle}
-          />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autoComplete="new-password"
+              required
+              className={inputStyle}
+              placeholder="パスワードを入力"
+            />
+          </div>
+
+          {/* パスワード確認 */}
+          <div>
+            <label className={labelStyle} htmlFor="confirmPassword">
+              パスワード（確認用）
+              <span className={badgeStyle}>必須</span>
+            </label>
+
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              autoComplete="new-password"
+              required
+              className={inputStyle}
+              placeholder="もう一度パスワードを入力"
+            />
+          </div>
         </>
       )}
 
-      <button type="submit" className="w-full mt-2 bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-sm">
+      {/* 登録ボタン */}
+      <button
+        type="submit"
+        className="w-full rounded-xl bg-(--color-primary) px-4 py-3 font-semibold text-(--text-main) transition-colors hover:bg-(--hover-light)"
+      >
         {submitLabel}
       </button>
     </form>
